@@ -34,9 +34,7 @@ module ImpressionistController
         actions = opts[:actions]
         actions.collect!(&:to_s) unless actions.blank?
         if (actions.blank? || actions.include?(action_name)) && unique?(opts[:unique])
-          Impression.transaction do
-            Impression.create(direct_create_statement)
-          end
+          Impression.create(direct_create_statement)
         end
       end
     end
@@ -52,7 +50,7 @@ module ImpressionistController
         request_hash: @impressionist_hash,
         session_hash: session_hash,
         ip_address: request.remote_ip,
-        referrer: request.referer,
+        referrer: request.url, # Change referrer to url
         user_agent: request.env['HTTP_USER_AGENT'], # user agent
         params: params_hash
       )
